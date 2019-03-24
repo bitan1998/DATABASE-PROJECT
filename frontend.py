@@ -96,6 +96,7 @@ class Student:
                         roo.title("Main Loop")
                         roo.configure(background='Cadet Blue')
 
+
                         MenuFrame = Frame(roo,bg='Cadet Blue',bd=10,relief=RIDGE)
                         MenuFrame.pack()
 
@@ -117,7 +118,7 @@ class Student:
                         
                         def iPrint():
                         	q = txtReceipt.get("1.0","end-1c")
-                        	filename= tempfile.mktemp(".txt")
+                        	filename= tempfile.mktemp(".pdf")
                         	open(filename,"w").write(q)
                         	os.startfile(filename,"print")
 
@@ -131,27 +132,23 @@ class Student:
                         txtReceipt.grid(row=1,column=0)
 
                         btn1 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
-                        btn1.grid(row=1,column=0)
+                        btn1.grid(row=2,column=0)
 
                         btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Reset")
-                        btn2.grid(row=1,column=1)
+                        btn2.grid(row=2,column=1)
 
                         btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Exit",command=Exit)
-                        btn3.grid(row=1,column=2)
+                        btn3.grid(row=2,column=2)
 
-                       
                         if(len(SearchID.get())!=0):
-                        	if(len(backend.searchData(SearchID.get()))==0):
-                         		lblfna = Label(roo,font=('arial',15,), text="No Records in this Roll Number is Available",padx=2,pady=2,bg="Ghost White")
-                         		lblfna.grid()
-	                        else:
-	                        	for row in backend.searchData(SearchID.get()):
-	                        		lblfna = Label(roo,font=('arial',15,), text="Enrollment ID:  %s" % (row[0]))
-	                        		lblfna.grid()
-	                        		lblfna = Label(roo,font=('arial',15,), text="Roll Number:  %s" % (row[1]))
-	                        		lblfna.grid()
-	                        		lblfna = Label(roo,font=('arial',15,), text="Name:  %s %s" % (row[2],row[3]))
-	                        		lblfna.grid()
+                            if(len(backend.searchData(SearchID.get()))==0):
+                                lblfna = Label(ReceiptCal_F,font=('arial',15,), text="No Records in this Roll Number is Available",padx=2,pady=2,bg="Ghost White")
+                                lblfna.grid(row=1,column=0)
+                            else:
+                                for row in backend.searchData(SearchID.get()):
+                                    lblfna = Label(ReceiptCal_F,font=('arial',15,), text="Enrollment ID:  %s\nRoll Number:  %s\nName:  %s %s" % (row[0],row[1],row[2],row[3]))
+                                    lblfna.grid(row=1,column=0)
+                        
                         roo.mainloop()
 
 
