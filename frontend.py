@@ -3,6 +3,7 @@ import tkinter.messagebox
 import backend
 import os
 import tempfile
+from tkinter import ttk
 
 class Student:
         def __init__(self,root):
@@ -110,19 +111,19 @@ class Student:
                         Buttons_F.pack(side=BOTTOM)
                         
                         #=============================Functions=======================================================================
-                        def Exit():
-                        	Exit = tkinter.messagebox.askyesno("Quit System","Confirm if you want to exit")
-                        	if Exit>0:
-                        		roo.destroy()
-                        		return 
+                        # def Exit():
+                        # 	Exit = tkinter.messagebox.askyesno("Quit System","Confirm if you want to exit")
+                        # 	if Exit>0:
+                        # 		roo.destroy()
+                        # 		return 
                         
                         def iPrint():
                         	q = txtReceipt.get("1.0","end-1c")
-                        	filename= tempfile.mktemp(".pdf")
+                        	filename= tempfile.mktemp(".txt")
                         	open(filename,"w").write(q)
                         	os.startfile(filename,"print")
 
-                         #=============================Button=Label Widget==============================================================
+                        #=============================Button=Label Widget==============================================================
                         
 
                         lblTitle = Label(FraTitle,width=40,bg='white',fg='black',bd=4,font=('arial',24,'bold'),text="Print Details")
@@ -134,11 +135,11 @@ class Student:
                         btn1 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
                         btn1.grid(row=2,column=0)
 
-                        btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Reset")
-                        btn2.grid(row=2,column=1)
+                        # btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Reset")
+                        # btn2.grid(row=2,column=1)
 
-                        btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Exit",command=Exit)
-                        btn3.grid(row=2,column=2)
+                        # btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Exit",command=Exit)
+                        # btn3.grid(row=2,column=2)
 
                         if(len(SearchID.get())!=0):
                             if(len(backend.searchData(SearchID.get()))==0):
@@ -160,7 +161,38 @@ class Student:
                                         Subject.get(),Address.get(),Mobile.get(),RfId.get())
                                 studentlist.delete(0,END)
                                 backend.insert(END,(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
-                                        Subject.get(),Address.get(),Mobile.get(),RfId.get()))                              
+                                        Subject.get(),Address.get(),Mobile.get(),RfId.get()))
+
+                def displayStudentData():
+                	root = Tk()
+                	tree = ttk.Treeview(root)
+                	root.geometry("1100x500+0+0")
+                	root.title("Main Loop")
+                	root.configure(background='Cadet Blue')
+
+
+                	tree["columns"]=("Roll Number","Name","Email ID","Phone Number")
+                	
+                	tree.column("Roll Number", width=200)
+                	tree.column("Name", width=200 )
+                	tree.column("Email ID", width=200)
+                	tree.column("Phone Number", width=200)
+
+                	tree.heading("Roll Number", text="Roll Number")
+                	tree.heading("Name", text="Name")
+                	tree.heading("Email ID", text="Email ID")
+                	tree.heading("Phone Number", text="Phone Number")
+                	
+
+                	for row in backend.searchAllData():
+                		tree.insert('', 'end', text="Student "+str(row[0]),values=(row[1],row[2],row[5],row[8]))
+                		
+
+                		
+
+                	tree.pack()
+                	root.mainloop()
+                	                            
                         
                                 
 
@@ -266,8 +298,8 @@ class Student:
                 # self.btnDeleteData = Button(ButtonFrame , text="Delete",font=('arial',20,'bold'),height=1,width=7,bd=4,command=DeleteData)
                 # self.btnDeleteData.grid(row=0,column=3)
 
-                # self.btnUpdateData = Button(ButtonFrame , text="Search",font=('arial',20,'bold'),height=1,width=7,bd=4,command=searchDatabase)
-                # self.btnUpdateData.grid(row=0,column=4)
+                self.btnUpdateData = Button(ButtonFrame , text="Search",font=('arial',20,'bold'),height=1,width=7,bd=4,command=displayStudentData)
+                self.btnUpdateData.grid(row=0,column=4)
 
                 # self.btnSearchData = Button(ButtonFrame , text="Update",font=('arial',20,'bold'),height=1,width=7,bd=4,command=update)
                 # self.btnSearchData.grid(row=0,column=5)

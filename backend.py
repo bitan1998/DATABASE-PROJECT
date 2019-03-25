@@ -36,6 +36,14 @@ def searchData(StdId):
 	rows=cur.fetchall()
 	conn.close()
 	return rows
+	
+def searchAllData():
+	conn=sqlite3.connect("student.db")
+	cur=conn.cursor()
+	cur.execute("SELECT * FROM student")
+	rows=cur.fetchall()
+	conn.close()
+	return rows
 
 def dataUpdate(StdId="",Firstname="",Surname="",Dob="",Emailid="",Subject="",Address="",Mobile="",RfId=""):
 	conn.sqlite3.connect("student.db")
