@@ -6,6 +6,7 @@ import tempfile
 from tkinter import ttk
 
 class Student:
+
         def __init__(self,root):
                 self.root=root
                 self.root.title("*Asterix Educations")
@@ -91,69 +92,63 @@ class Student:
                                 clearData()
                                 DisplayData()
 
-                def searchDatabase():
-                        roo = Tk()
-                        roo.geometry("810x630+0+0")
-                        roo.title("Main Loop")
-                        roo.configure(background='Cadet Blue')
+                def searchDatabase(StdId=""):
+                	
+                	if(len(str(StdId))==0 and len(SearchID.get())==0):
+                		iExit = tkinter.messagebox.askyesno("Error","Enter Values")
+                		return
+                	roo = Tk()
+                	roo.geometry("810x630+0+0")
+                	roo.title("Main Loop")
+                	roo.configure(background='Cadet Blue')
+
+                	MenuFrame = Frame(roo,bg='Cadet Blue',bd=10,relief=RIDGE)
+                	MenuFrame.pack()
+
+                	FraTitle = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
+                	FraTitle.pack(side=TOP)
+
+                	ReceiptCal_F = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
+                	ReceiptCal_F.pack(side=TOP)
+
+                	Buttons_F = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
+                	Buttons_F.pack(side=BOTTOM)
+
+                	def Exiti():
+                		roo.destroy()
+                		return 
+                	def iPrint():
+                		q = txtReceipt.get("1.0","end-1c")
+                		filename= tempfile.mktemp(".txt")
+                		open(filename,"w").write(q)
+                		os.startfile(filename,"print")
+
+                	lblTitle = Label(FraTitle,width=40,bg='white',fg='black',bd=4,font=('arial',24,'bold'),text="Print Details")
+                	lblTitle.grid(row=0,column=0)
+
+                	txtReceipt = Text(ReceiptCal_F,width=84,bg='white',height=24,font=('arial',12,'bold'),bd=4)
+                	txtReceipt.grid(row=1,column=0)
+
+                	btn1 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
+                	btn1.grid(row=2,column=0)
+
+                	if(len(SearchID.get())!=0):
+                		if(len(backend.searchData(SearchID.get()))==0):
+                			lblfna = Label(ReceiptCal_F,font=('arial',15,), text="No Records in this Roll Number is Available",padx=2,pady=2,bg="Ghost White")
+                			lblfna.grid(row=1,column=0)
+                		else:
+                			for row in backend.searchData(SearchID.get()):
+                				lblfna = Label(ReceiptCal_F,font=('arial',15,), text="Enrollment ID:  %s\nRoll Number:  %s\nName:  %s %s" % (row[0],row[1],row[2],row[3]))
+                				lblfna.grid(row=1,column=0)
+                	else:
+                        	for row in backend.searchData(StdId):
+                        		lblfna = Label(ReceiptCal_F,font=('arial',15,), text="Enrollment ID:  %s\nRoll Number:  %s\nName:  %s %s" % (row[0],row[1],row[2],row[3]))
+                        		lblfna.grid(row=1,column=0)
+
+               		roo.mainloop()
 
 
-                        MenuFrame = Frame(roo,bg='Cadet Blue',bd=10,relief=RIDGE)
-                        MenuFrame.pack()
-
-                        FraTitle = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
-                        FraTitle.pack(side=TOP)
-
-                        ReceiptCal_F = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
-                        ReceiptCal_F.pack(side=TOP)
-
-                        Buttons_F = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
-                        Buttons_F.pack(side=BOTTOM)
-                        
-                        #=============================Functions=======================================================================
-                        # def Exit():
-                        # 	Exit = tkinter.messagebox.askyesno("Quit System","Confirm if you want to exit")
-                        # 	if Exit>0:
-                        # 		roo.destroy()
-                        # 		return 
-                        
-                        def iPrint():
-                        	q = txtReceipt.get("1.0","end-1c")
-                        	filename= tempfile.mktemp(".txt")
-                        	open(filename,"w").write(q)
-                        	os.startfile(filename,"print")
-
-                        #=============================Button=Label Widget==============================================================
-                        
-
-                        lblTitle = Label(FraTitle,width=40,bg='white',fg='black',bd=4,font=('arial',24,'bold'),text="Print Details")
-                        lblTitle.grid(row=0,column=0)
-
-                        txtReceipt = Text(ReceiptCal_F,width=84,bg='white',height=24,font=('arial',12,'bold'),bd=4)
-                        txtReceipt.grid(row=1,column=0)
-
-                        btn1 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
-                        btn1.grid(row=2,column=0)
-
-                        # btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Reset")
-                        # btn2.grid(row=2,column=1)
-
-                        # btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Exit",command=Exit)
-                        # btn3.grid(row=2,column=2)
-
-                        if(len(SearchID.get())!=0):
-                            if(len(backend.searchData(SearchID.get()))==0):
-                                lblfna = Label(ReceiptCal_F,font=('arial',15,), text="No Records in this Roll Number is Available",padx=2,pady=2,bg="Ghost White")
-                                lblfna.grid(row=1,column=0)
-                            else:
-                                for row in backend.searchData(SearchID.get()):
-                                    lblfna = Label(ReceiptCal_F,font=('arial',15,), text="Enrollment ID:  %s\nRoll Number:  %s\nName:  %s %s" % (row[0],row[1],row[2],row[3]))
-                                    lblfna.grid(row=1,column=0)
-                        
-                        roo.mainloop()
-
-
-                def update():
+                def update():	
                         if(len(StdId.get())!=0):
                                 backend.deleteRec(std[0])
                         if(len(StdId.get())!=0):
@@ -168,7 +163,16 @@ class Student:
                 	tree = ttk.Treeview(root)
                 	root.geometry("1100x500+0+0")
                 	root.title("Main Loop")
-                	root.configure(background='Cadet Blue')
+                	root.configure(background='Cadet Blue') 
+                	
+                	lblfna = Label(root,font=('arial',15,), text="DOUBLE CLICK ON EACH OF THE ENTRY TO GET DETAILED VIEW")
+                	lblfna.pack(side=BOTTOM)
+                	
+                	def on_double_click(event):
+                		region = tree.identify("region", event.x, event.y)
+                		if region == "cell" or region != "cell":
+                			curItem = tree.focus()
+                			searchDatabase(tree.item(curItem)['values'][0])
 
 
                 	tree["columns"]=("Roll Number","Name","Email ID","Phone Number")
@@ -182,14 +186,11 @@ class Student:
                 	tree.heading("Name", text="Name")
                 	tree.heading("Email ID", text="Email ID")
                 	tree.heading("Phone Number", text="Phone Number")
-                	
+                	tree.bind("<Double-1>",on_double_click)
 
                 	for row in backend.searchAllData():
                 		tree.insert('', 'end', text="Student "+str(row[0]),values=(row[1],row[2],row[5],row[8]))
                 		
-
-                		
-
                 	tree.pack()
                 	root.mainloop()
                 	                            
