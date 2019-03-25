@@ -131,6 +131,10 @@ class Student:
 
                 	btn1 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
                 	btn1.grid(row=2,column=0)
+                	btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Update")
+                	btn2.grid(row=2,column=1)
+                	btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Delete")
+                	btn3.grid(row=2,column=2)
 
                 	if(len(SearchID.get())!=0):
                 		if(len(backend.searchData(SearchID.get()))==0):
