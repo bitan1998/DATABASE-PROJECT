@@ -125,6 +125,34 @@ class Student:
 				f=open(filename,"w")
 				f.write(q)
 				f.close()
+			def iUpdate():
+				roo.destroy()
+				self.btnSearchData.grid_forget()
+				self.btnAddData.grid_forget()
+				self.btnDisplayData.grid_forget()
+				self.btnClearData.grid_forget()
+				self.btnSearchAllData.grid_forget()
+				self.lblRfId.grid_forget()
+				nlblRfId=Label(DataFrameLEFT,font=('arial',15), text="Roll Number:",padx=2,pady=2,bg="Ghost White")
+				nlblRfId.grid(row=0,column=0,sticky=W)
+				for row in backend.searchData(SearchID.get()):
+					self.txtStdID.insert(0,row[0])
+					self.txtfna.insert(0,row[2])
+					self.txtSna.insert(0,row[3])
+					self.txtDoB.insert(0,row[4])
+					self.txtEmail.insert(0,row[5])
+					self.txtSubject.insert(0,row[6])
+					self.txtAdr.insert(0,row[7])
+					self.txtMob.insert(0,row[8])
+					self.txtRfId.insert(0,row[9])
+				self.searchID.config(state="disabled")
+				self.txtStdID.config(state="disabled")
+				self.btnUpdateData.grid(row=11,column=2)
+				MainFrame.grid()
+
+				
+
+
 
 			lblTitle = Label(FraTitle,width=40,bg='white',fg='black',bd=4,font=('arial',24,'bold'),text="Print Details")
 			lblTitle.grid(row=0,column=0)
@@ -134,7 +162,7 @@ class Student:
 
 			btn1 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
 			btn1.grid(row=2,column=0)
-			btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Update")
+			btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Update",command=iUpdate)
 			btn2.grid(row=2,column=1)
 			btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Delete")
 			btn3.grid(row=2,column=2)
@@ -143,6 +171,8 @@ class Student:
 				if(len(backend.searchData(SearchID.get()))==0):
 					lblfna = Label(ReceiptCal_F,font=('arial',15,), text="No Records in this Roll Number is Available",padx=2,pady=2,bg="Ghost White")
 					lblfna.grid(row=1,column=0)
+					btn2.config(state="disabled")
+					btn3.config(state="disabled")
 				else:
 					for row in backend.searchData(SearchID.get()):
 						lblfna = Label(ReceiptCal_F,font=('arial',15,), text="Enrollment ID:  %s\nRoll Number:  %s\nName:  %s %s" % (row[0],row[1],row[2],row[3]))
@@ -153,6 +183,9 @@ class Student:
 					lblfna.grid(row=1,column=0)
 
 			roo.mainloop()
+
+		#def retUpdate():
+			#return
 
 
 		def update():	
@@ -281,6 +314,8 @@ class Student:
 
 		self.btnAddData = Button(DataFrameLEFT , text="Add",font=('arial',15,'bold'),height=1,width=7,bd=4,command=addData)
 		self.btnAddData.grid(row=11,column=2)  
+
+		self.btnUpdateData = Button(DataFrameLEFT , text="Update",font=('arial',15,'bold'),height=1,width=7,bd=4)
 	
 		#================================================Listbox and ScrollBar Widget=================================================
 		# scrollbar = Scrollbar(DataFrameRIGHT)
@@ -306,8 +341,8 @@ class Student:
 		# self.btnDeleteData = Button(ButtonFrame , text="Delete",font=('arial',20,'bold'),height=1,width=7,bd=4,command=DeleteData)
 		# self.btnDeleteData.grid(row=0,column=3)
 
-		self.btnUpdateData = Button(ButtonFrame , text="Search",font=('arial',20,'bold'),height=1,width=7,bd=4,command=displayStudentData)
-		self.btnUpdateData.grid(row=0,column=4)
+		self.btnSearchAllData = Button(ButtonFrame , text="Search",font=('arial',20,'bold'),height=1,width=7,bd=4,command=displayStudentData)
+		self.btnSearchAllData.grid(row=0,column=4)
 
 		# self.btnSearchData = Button(ButtonFrame , text="Update",font=('arial',20,'bold'),height=1,width=7,bd=4,command=update)
 		# self.btnSearchData.grid(row=0,column=5)
