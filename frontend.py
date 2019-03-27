@@ -32,7 +32,8 @@ class Student:
 			iExit = tkinter.messagebox.askyesno("Student Database Management System","Confirm if you want to exit")
 			if iExit>0:
 				root.destroy()
-				return 
+				return
+
 
 		def clearData():
 			self.txtStdID.delete(0,END)
@@ -94,7 +95,6 @@ class Student:
 				DisplayData()
 
 		def searchDatabase(StdId=""):
-			
 			if(len(str(StdId))==0 and len(SearchID.get())==0):
 				iExit = tkinter.messagebox.askyesno("Error","Enter Values")
 				return
@@ -117,7 +117,12 @@ class Student:
 
 			def Exiti():
 				roo.destroy()
-				return 
+				return
+
+			def refresh():
+				roo.destroy()
+				exec(open("./frontend.py").read()) 
+
 			def iPrint():
 				q= lblfna.cget("text")
 				filetypes=[('Text', '*.txt'),('All files', '*'),('PDF','*.pdf'),('Word Document','*.docx')]
@@ -125,6 +130,7 @@ class Student:
 				f=open(filename,"w")
 				f.write(q)
 				f.close()
+
 			def iUpdate():
 				roo.destroy()
 				self.btnSearchData.grid_forget()
@@ -133,8 +139,11 @@ class Student:
 				self.btnClearData.grid_forget()
 				self.btnSearchAllData.grid_forget()
 				self.lblRfId.grid_forget()
+				self.btnExit.grid_forget()
+
 				nlblRfId=Label(DataFrameLEFT,font=('arial',15), text="Roll Number:",padx=2,pady=2,bg="Ghost White")
 				nlblRfId.grid(row=0,column=0,sticky=W)
+				self.btnBack = Button(ButtonFrame , text="Back",font=('arial',20,'bold'),height=1,width=7,bd=4,command=refresh)
 				for row in backend.searchData(SearchID.get()):
 					self.txtStdID.insert(0,row[0])
 					self.txtfna.insert(0,row[2])
@@ -148,11 +157,8 @@ class Student:
 				self.searchID.config(state="disabled")
 				self.txtStdID.config(state="disabled")
 				self.btnUpdateData.grid(row=11,column=2)
+				self.btnBack.grid(row=11,column=3)
 				MainFrame.grid()
-
-				
-
-
 
 			lblTitle = Label(FraTitle,width=40,bg='white',fg='black',bd=4,font=('arial',24,'bold'),text="Print Details")
 			lblTitle.grid(row=0,column=0)
@@ -190,13 +196,14 @@ class Student:
 
 		def update():	
 			if(len(StdId.get())!=0):
-				backend.deleteRec(std[0])
-			if(len(StdId.get())!=0):
-				backend.addStdRec(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
-					Subject.get(),Address.get(),Mobile.get(),RfId.get())
-				studentlist.delete(0,END)
-				backend.insert(END,(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
-					Subject.get(),Address.get(),Mobile.get(),RfId.get()))
+				# backend.addStdRec(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
+				# 	Subject.get(),Address.get(),Mobile.get(),RfId.get())
+				# studentlist.delete(0,END)
+				# backend.insert(END,(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
+				# 	Subject.get(),Address.get(),Mobile.get(),RfId.get()))
+				backend.dataUpdate(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(),\
+						Subject.get(),Address.get(),Mobile.get(),RfId.get())
+
 
 		def displayStudentData():
 			root = Tk()
@@ -315,7 +322,8 @@ class Student:
 		self.btnAddData = Button(DataFrameLEFT , text="Add",font=('arial',15,'bold'),height=1,width=7,bd=4,command=addData)
 		self.btnAddData.grid(row=11,column=2)  
 
-		self.btnUpdateData = Button(DataFrameLEFT , text="Update",font=('arial',15,'bold'),height=1,width=7,bd=4)
+		self.btnUpdateData = Button(DataFrameLEFT , text="Update",font=('arial',15,'bold'),height=1,width=7,bd=4,command=update)
+		
 	
 		#================================================Listbox and ScrollBar Widget=================================================
 		# scrollbar = Scrollbar(DataFrameRIGHT)

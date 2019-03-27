@@ -45,11 +45,11 @@ def searchAllData():
 	conn.close()
 	return rows
 
-def dataUpdate(StdId="",Firstname="",Surname="",Dob="",Emailid="",Subject="",Address="",Mobile="",RfId=""):
-	conn.sqlite3.connect("student.db")
+def dataUpdate(StdId,Firstname="",Surname="",Dob="",Emailid="",Subject="",Address="",Mobile="",RfId=""):
+	conn=sqlite3.connect("student.db")
 	cur=conn.cursor()
-	cur.execute("UPDATE student SET StdId=? OR Firstname=? OR Surname=? OR Dob=? OR Emailid=? OR Address=? OR Mobile=?OR RfId=?",\
-				 (StdId,Firstname,Surname,Dob,Emailid,Subject,Address,Mobile,RfId))
+	cur.execute("UPDATE student SET Firstname=? , Surname=? , Dob=? , Emailid=? , Subject=? , Address=? , Mobile=? , RfId=? where id=?",\
+				 (Firstname,Surname,Dob,Emailid,Subject,Address,Mobile,RfId,StdId,))
 	conn.commit()
 	conn.close()
 
