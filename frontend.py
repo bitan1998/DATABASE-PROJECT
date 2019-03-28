@@ -12,7 +12,6 @@ class Student:
 		self.root=root
 		self.root.title("*Asterix Educations")
 		width, height = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
-		# self.root.geometry('%dx%d+0+0' % (width,height))
 		self.root.geometry("1980x900+0+0")
 		self.root.config(width=width,height=height,bg="cadet blue")
 
@@ -59,45 +58,12 @@ class Student:
 			else:
 				iExit = tkinter.messagebox.askyesno("Error","Enter Values")
 
-		
-		def DisplayData():
-			studentlist.delete(0,END)
-			for row in backend.viewData():
-				studentlist.insert(END,row,str(""))
-
-		def StudentRec(event):
-			global sd
-			searchStd = studentlist.curselection()[0]
-			sd= studentlist.get(searchStd)
-			self.txtStdID.delete(0,END)
-			self.txtStdID.insert(END,sd[1])
-			self.txtfna.delete(0,END)
-			self.txtfna.insert(END,sd[2])
-			self.txtSna.delete(0,END)
-			self.txtSna.insert(END,sd[3])
-			self.txtDoB.delete(0,END)
-			self.txtDoB.insert(END,sd[4])
-			self.txtEmail.delete(0,END)
-			self.txtEmail.insert(END,sd[5])
-			self.txtSubject.delete(0,END)
-			self.txtSubject.insert(END,sd[6])
-			self.txtAdr.delete(0,END)
-			self.txtAdr.insert(END,sd[7])
-			self.txtMob.delete(0,END)
-			self.txtMob.insert(END,sd[8])
-			self.txtRfId.delete(0,END)
-			self.txtRfId.insert(END,sd[9])
-
-		def DeleteData():
-			if(len(StdId.get())!=0):
-				backend.deleteRec(sd[0])
-				clearData()
-				DisplayData()
 
 		def searchDatabase(StdId=""):
 			if(len(str(StdId))==0 and len(SearchID.get())==0):
 				iExit = tkinter.messagebox.askyesno("Error","Enter Values")
 				return
+
 			roo = Tk()
 			roo.geometry("810x630+0+0")
 			roo.title("Main Loop")
@@ -120,8 +86,43 @@ class Student:
 				return
 
 			def refresh():
-				roo.destroy()
-				exec(open("./frontend.py").read()) 
+				self.btnSearchData.config(state="normal")
+				self.btnAddData.config(state="normal")
+				self.btnClearData.config(state="normal")
+				self.btnSearchAllData.config(state="normal")
+				self.lblRfId.config(state="normal")
+				self.btnExit.config(state="normal")
+				self.searchID.config(state="normal")
+				self.txtStdID.config(state="normal")
+				self.btnBack.grid_forget()
+				
+				self.txtStdID.delete(0,END)
+				self.txtfna.delete(0,END)
+				self.txtSna.delete(0,END)
+				self.txtDoB.delete(0,END)
+				self.txtEmail.delete(0,END)
+				self.txtSubject.delete(0,END)
+				self.txtAdr.delete(0,END)
+				self.txtMob.delete(0,END)
+				self.txtRfId.delete(0,END)
+				self.searchID.delete(0,END)
+				self.txtStdID.delete(0,END)
+
+
+				self.btnBack.grid_forget()
+				self.btnUpdateData.grid_forget()
+
+			def iDelete():
+				if(len(SearchID.get())!=0):
+					backend.deleteRec(SearchID.get())
+					iExit = tkinter.messagebox.askyesno("Error","Records have been succesfully deleted")
+					roo.destroy()
+				else:
+					backend.deleteRec(StdId)
+					iExit = tkinter.messagebox.askyesno("Error","Records have been succesfully deleted")
+					roo.destroy()
+
+				
 
 			def iPrint():
 				q= lblfna.cget("text")
@@ -133,27 +134,38 @@ class Student:
 
 			def iUpdate():
 				roo.destroy()
-				self.btnSearchData.grid_forget()
-				self.btnAddData.grid_forget()
-				self.btnDisplayData.grid_forget()
-				self.btnClearData.grid_forget()
-				self.btnSearchAllData.grid_forget()
-				self.lblRfId.grid_forget()
-				self.btnExit.grid_forget()
+				
+				self.btnSearchData.config(state="disabled")
+				self.btnAddData.config(state="disabled")
+				self.btnClearData.config(state="disabled")
+				self.btnSearchAllData.config(state="disabled")
+				self.btnExit.config(state="disabled")
 
-				nlblRfId=Label(DataFrameLEFT,font=('arial',15), text="Roll Number:",padx=2,pady=2,bg="Ghost White")
-				nlblRfId.grid(row=0,column=0,sticky=W)
 				self.btnBack = Button(ButtonFrame , text="Back",font=('arial',20,'bold'),height=1,width=7,bd=4,command=refresh)
-				for row in backend.searchData(SearchID.get()):
-					self.txtStdID.insert(0,row[0])
-					self.txtfna.insert(0,row[2])
-					self.txtSna.insert(0,row[3])
-					self.txtDoB.insert(0,row[4])
-					self.txtEmail.insert(0,row[5])
-					self.txtSubject.insert(0,row[6])
-					self.txtAdr.insert(0,row[7])
-					self.txtMob.insert(0,row[8])
-					self.txtRfId.insert(0,row[9])
+			
+				if(len(StdId)==0):
+					for row in backend.searchData(SearchID.get()):
+						self.txtStdID.insert(0,row[0])
+						self.txtfna.insert(0,row[2])
+						self.txtSna.insert(0,row[3])
+						self.txtDoB.insert(0,row[4])
+						self.txtEmail.insert(0,row[5])
+						self.txtSubject.insert(0,row[6])
+						self.txtAdr.insert(0,row[7])
+						self.txtMob.insert(0,row[8])
+						self.txtRfId.insert(0,row[9])	
+				else:
+					for row in backend.searchData(StdId):
+						self.txtStdID.insert(0,row[0])
+						self.txtfna.insert(0,row[2])
+						self.txtSna.insert(0,row[3])
+						self.txtDoB.insert(0,row[4])
+						self.txtEmail.insert(0,row[5])
+						self.txtSubject.insert(0,row[6])
+						self.txtAdr.insert(0,row[7])
+						self.txtMob.insert(0,row[8])
+						self.txtRfId.insert(0,row[9])
+
 				self.searchID.config(state="disabled")
 				self.txtStdID.config(state="disabled")
 				self.btnUpdateData.grid(row=11,column=2)
@@ -170,7 +182,7 @@ class Student:
 			btn1.grid(row=2,column=0)
 			btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Update",command=iUpdate)
 			btn2.grid(row=2,column=1)
-			btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Delete")
+			btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Delete",command=iDelete)
 			btn3.grid(row=2,column=2)
 
 			if(len(SearchID.get())!=0):
@@ -190,19 +202,11 @@ class Student:
 
 			roo.mainloop()
 
-		#def retUpdate():
-			#return
-
-
 		def update():	
 			if(len(StdId.get())!=0):
-				# backend.addStdRec(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
-				# 	Subject.get(),Address.get(),Mobile.get(),RfId.get())
-				# studentlist.delete(0,END)
-				# backend.insert(END,(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), \
-				# 	Subject.get(),Address.get(),Mobile.get(),RfId.get()))
 				backend.dataUpdate(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(),\
 						Subject.get(),Address.get(),Mobile.get(),RfId.get())
+			iExit = tkinter.messagebox.askyesno("Success!!","The values have been Updated")
 
 
 		def displayStudentData():
@@ -219,7 +223,9 @@ class Student:
 				region = tree.identify("region", event.x, event.y)
 				if region == "cell" or region != "cell":
 					curItem = tree.focus()
-					searchDatabase(tree.item(curItem)['values'][0])
+					x = tree.item(curItem)['values'][0]
+					root.destroy()
+					searchDatabase(x)
 
 
 			tree["columns"]=("Roll Number","Name","Email ID","Phone Number")
@@ -262,9 +268,6 @@ class Student:
 
 		DataFrameLEFT = LabelFrame(DataFrame, width=500, bd=2,height = 800 ,padx=20,pady=10, bg="Ghost White",font=('arial',20,'bold'),text="Student Information")
 		DataFrameLEFT.pack(side=LEFT)
-
-		# DataFrameRIGHT =LabelFrame(DataFrame, width=500, height = 600 ,padx=20, pady=3, bg="Ghost White", relief= RIDGE,font=('arial',20,'bold'),text="Student Details\n\n")
-		# DataFrameRIGHT.pack(side=RIGHT)
 
 	#=========================================================Labels and Entry Widget==================================================
 		self.lblRfId = Label(DataFrameLEFT,font=('arial',15), text="Type Roll Number To Search:",padx=2,pady=2,bg="Ghost White")
@@ -323,37 +326,14 @@ class Student:
 		self.btnAddData.grid(row=11,column=2)  
 
 		self.btnUpdateData = Button(DataFrameLEFT , text="Update",font=('arial',15,'bold'),height=1,width=7,bd=4,command=update)
-		
-	
-		#================================================Listbox and ScrollBar Widget=================================================
-		# scrollbar = Scrollbar(DataFrameRIGHT)
-		# scrollbar.grid(row=0,column=1,sticky='ns')
-
-
-		# studentlist = Listbox(DataFrameRIGHT, width=41, height=19,yscrollcommand=scrollbar.set,xscrollcommand=scrollbar.set)
-		# studentlist.grid(row=0,column=0,padx=8)
-				      
-		# scrollbar.config(command = studentlist.yview)
-		# scrollbar.config(command= studentlist.xview) 
 
 		#================================================Button Widget=================================================================
-		# self.btnAddData = Button(ButtonFrame , text="Add New",font=('arial',20,'bold'),height=1,width=7,bd=4,command=addData)
-		# self.btnAddData.grid(row=0,column=0)
-
-		self.btnDisplayData = Button(ButtonFrame , text="Display",font=('arial',20,'bold'),height=1,width=7,bd=4,command=DisplayData)
-		self.btnDisplayData.grid(row=0,column=1)
 
 		self.btnClearData = Button(ButtonFrame , text="Clear",font=('arial',20,'bold'),height=1,width=7,bd=4,command=clearData)
 		self.btnClearData.grid(row=0,column=2)
 
-		# self.btnDeleteData = Button(ButtonFrame , text="Delete",font=('arial',20,'bold'),height=1,width=7,bd=4,command=DeleteData)
-		# self.btnDeleteData.grid(row=0,column=3)
-
 		self.btnSearchAllData = Button(ButtonFrame , text="Search",font=('arial',20,'bold'),height=1,width=7,bd=4,command=displayStudentData)
 		self.btnSearchAllData.grid(row=0,column=4)
-
-		# self.btnSearchData = Button(ButtonFrame , text="Update",font=('arial',20,'bold'),height=1,width=7,bd=4,command=update)
-		# self.btnSearchData.grid(row=0,column=5)
 
 		self.btnExit = Button(ButtonFrame , text="Exit",font=('arial',20,'bold'),height=1,width=7,bd=4,command=iExit)
 		self.btnExit.grid(row=0,column=6)

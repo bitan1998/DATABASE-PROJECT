@@ -25,7 +25,7 @@ def viewData():
 def deleteRec(id):
 	conn=sqlite3.connect("student.db")
 	cur=conn.cursor()
-	cur.execute("DELETE FROM student WHERE id=?",(id,))
+	cur.execute("DELETE FROM student WHERE StdID=?",(id,))
 	conn.commit()
 	conn.close()
 
