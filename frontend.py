@@ -329,13 +329,13 @@ class Student:
 
 		#================================================Button Widget=================================================================
 
-		self.btnClearData = Button(ButtonFrame , text="Clear",font=('arial',20,'bold'),height=1,width=7,bd=4,command=clearData)
+		self.btnClearData = Button(ButtonFrame , text="CLEAR",font=('arial',20,'bold'),height=1,width=7,bd=4,command=clearData)
 		self.btnClearData.grid(row=0,column=2)
 
-		self.btnSearchAllData = Button(ButtonFrame , text="Search",font=('arial',20,'bold'),height=1,width=7,bd=4,command=displayStudentData)
+		self.btnSearchAllData = Button(ButtonFrame , text="DISPLAY",font=('arial',20,'bold'),height=1,width=7,bd=4,command=displayStudentData)
 		self.btnSearchAllData.grid(row=0,column=4)
 
-		self.btnExit = Button(ButtonFrame , text="Exit",font=('arial',20,'bold'),height=1,width=7,bd=4,command=iExit)
+		self.btnExit = Button(ButtonFrame , text="EXIT",font=('arial',20,'bold'),height=1,width=7,bd=4,command=iExit)
 		self.btnExit.grid(row=0,column=6)
 
 if __name__=='__main__':
