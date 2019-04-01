@@ -5,6 +5,7 @@ import os
 import tempfile
 from tkinter import ttk
 import tkinter.filedialog
+import word_generation
 
 class Student:
 
@@ -48,13 +49,10 @@ class Student:
 		def addData():
 			if (len(StdId.get())!=0):
 				backend.addStdRec(StdId.get(),Firstname.get(),Surname.get(),Dob.get(),Emailid.get(), Subject.get(),Address.get(),Mobile.get(),RfId.get())
+				word_generation.generateCashMemo(StdId.get())
 				clearData()
-				roo = Tk()
-				roo.geometry("500x500+0+0")
-				roo.title("Main Loop")
-				lblfna = Label(roo,font=('arial',15,), text="Reciept Will be Generated!!",padx=2,pady=2,bg="Ghost White")
-				lblfna.grid()
-				roo.mainloop()
+				iExit = tkinter.messagebox.askyesno("Success","Reciept is be Generated!!")
+
 			else:
 				iExit = tkinter.messagebox.askyesno("Error","Enter Values")
 

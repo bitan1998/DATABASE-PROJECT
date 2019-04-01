@@ -1,9 +1,22 @@
-import docx
+import backend
 
-doc = docx.Document()
+# from __future__ import print_function
+# from mailmerge import MailMerge
+# from datetime import date
 
-doc.add_paragraph("This is some text")
-new_paragraph = doc.add_paragraph("I love python programming")
-new_paragraph.add_run(". This the continuation")
+# template = "Reciepts/new.docx"
 
-doc.save("Reciepts/new.docx")
+# document = MailMerge(template)
+
+# document.merge(
+# 	name 	= 'Swaroop Acharjee',
+# 	amount 	= '500',
+# 	type 	= 'Registration Fees',
+# 	month	= 'April'
+# 	)
+
+# document.write('Reciepts/new2.docx')
+
+def generateCashMemo(StdId):
+	print(StdId)
+
