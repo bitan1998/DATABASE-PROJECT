@@ -4,6 +4,11 @@ def studentData():
 	conn=sqlite3.connect("student.db")
 	conn.execute("CREATE TABLE IF NOT EXISTS student (id INTEGER PRIMARY KEY,StdID text,Firstname text,Surname text, \
 	              Dob text, Emailid text ,Subject text,Address text,Mobile text,RfId INTEGER)")
+	conn.execute("CREATE TABLE IF NOT EXISTS fee (id INTEGER PRIMARY KEY,StdID text,Fee_Time_Stamp text,Remarks text, \
+	              Subject text, Amount text)")
+	conn.execute("CREATE TABLE IF NOT EXISTS image (id INTEGER ,StdID text,Picture blob,LastFee text) FOREIGN KEY(id) REFERENCES(StdID) ON DELETE CASCADE")
+	conn.execute("CREATE TABLE IF NOT EXISTS attendance (id INTEGER PRIMARY KEY,StdID text,Intime text,Outtime text)\
+	              FOREIGN KEY(id) REFERENCES(StdID) ON DELETE CASCADE ")
 	conn.commit()
 	conn.close()
 
@@ -13,6 +18,28 @@ def addStdRec(StdId,Firstname,Surname,Dob,Emailid,Subject,Address,Mobile,RfId):
 	cur.execute("INSERT INTO student VALUES (NULL, ?,?,?,?,?,?,?,?,?)",(StdId,Firstname,Surname,Dob,Emailid,Subject,Address,Mobile,RfId))
 	conn.commit()
 	conn.close()
+
+def addFeeRec(StdId,Fee_Time_Stamp,Remarks,Subject,Amount):
+	conn=sqlite3.connect("student.db")
+	cur = conn.cursor()
+	cur.execute("INSERT INTO fee VALUES (NULL, ?,?,?,?,?)",(StdId,Fee_Time_Stamp,Remarks,Subject,Amount))
+	conn.commit()
+	conn.close()
+
+def addImageRec(StdId,Picture,LastFee):
+	conn=sqlite3.connect("student.db")
+	cur = conn.cursor()
+	cur.execute("INSERT INTO image VALUES (NULL, ?,?,?)",(StdId,Picture,LastFee))
+	conn.commit()
+	conn.close()
+
+def addAttenRec(StdId,Intime,Outtime):
+	conn=sqlite3.connect("student.db")
+	cur = conn.cursor()
+	cur.execute("INSERT INTO attendance VALUES (NULL, ?,?,?)",(StdId,Intime,Outtime))
+	conn.commit()
+	conn.close()
+
 
 def viewData():
 	conn=sqlite3.connect("student.db")
