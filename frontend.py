@@ -63,7 +63,7 @@ class Student:
 				return
 
 			roo = Tk()
-			roo.geometry("810x630+0+0")
+			roo.geometry("900x700+0+0")
 			roo.title("Main Loop")
 			roo.configure(background='Cadet Blue')
 
@@ -78,6 +78,8 @@ class Student:
 
 			Buttons_F = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
 			Buttons_F.pack(side=BOTTOM)
+			Buttons_F1 = Frame(MenuFrame,bg='powder blue',bd=10,relief=RIDGE)
+			Buttons_F1.pack(side=BOTTOM)
 
 			def Exiti():
 				roo.destroy()
@@ -181,6 +183,13 @@ class Student:
 			btn2 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Update",command=iUpdate)
 			btn2.grid(row=2,column=1)
 			btn3 = Button(Buttons_F,font=('arial',16,'bold'),width=19,text="Delete",command=iDelete)
+			btn3.grid(row=2,column=2)
+
+			btn1 = Button(Buttons_F1,font=('arial',16,'bold'),width=19,text="Print",command=iPrint)
+			btn1.grid(row=2,column=0)
+			btn2 = Button(Buttons_F1,font=('arial',16,'bold'),width=19,text="Update",command=iUpdate)
+			btn2.grid(row=2,column=1)
+			btn3 = Button(Buttons_F1,font=('arial',16,'bold'),width=19,text="Delete",command=iDelete)
 			btn3.grid(row=2,column=2)
 
 			if(len(SearchID.get())!=0):
